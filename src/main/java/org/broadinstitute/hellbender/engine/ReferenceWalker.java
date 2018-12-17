@@ -1,7 +1,7 @@
 package org.broadinstitute.hellbender.engine;
 
 import org.broadinstitute.hellbender.engine.filters.CountingReadFilter;
-import org.broadinstitute.hellbender.tools.walkers.fasta.ExampleReferenceWalker;
+import org.broadinstitute.hellbender.tools.walkers.fasta.CountBasesInReference;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.iterators.IntervalLocusIterator;
 
@@ -9,7 +9,7 @@ import org.broadinstitute.hellbender.utils.iterators.IntervalLocusIterator;
  * A reference walker is a tool which process each position in a given reference.
  *
  *  ReferenceWalker authors must implement the apply() method to process each position, and may optionally implement
- *  {@link #onTraversalStart()} and/or {@link #onTraversalSuccess()}. See the {@link ExampleReferenceWalker} walker for an example.
+ *  {@link #onTraversalStart()} and/or {@link #onTraversalSuccess()}. See the {@link CountBasesInReference} walker for an example.
  */
 public abstract class ReferenceWalker extends GATKTool {
 

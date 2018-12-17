@@ -7,27 +7,27 @@ import org.broadinstitute.hellbender.engine.ReferenceContext;
 import org.broadinstitute.hellbender.engine.ReferenceWalker;
 import picard.cmdline.programgroups.ReferenceProgramGroup;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @CommandLineProgramProperties(
-  summary = "Count the number of bases in a reference file",
-  oneLineSummary = "Count the number of bases that appear in a reference file",
+  summary = "Count the numbers of each base in a reference file",
+  oneLineSummary = "Count the number of each individual base which occurs in a reference file.",
   programGroup = ReferenceProgramGroup.class
 )
-public class ExampleReferenceWalker extends ReferenceWalker {
-    private Map<String, Long> contigBaseCount = new HashMap<>();
+public class CountBasesInReference extends ReferenceWalker {
+    private final long[] baseCounts = new long[256];
 
     @Override
     public void apply(ReferenceContext referenceContext, ReadsContext read, FeatureContext featureContext) {
-      contigBaseCount.merge(referenceContext.getInterval().getContig(), 1L, (old, newValue) -> old + newValue);
+      baseCounts[referenceContext.getBase()]++;
     }
 
     @Override
     public Object onTraversalSuccess(){
-      contigBaseCount.forEach((key, value) -> System.out.println(key + " : " + value));
-      final long totalLength = contigBaseCount.values().stream().mapToLong(Long::longValue).sum();
-      System.out.println(totalLength);
-      return totalLength;
+        for (int i = 0; i < 256; i++) {
+            final long count = baseCounts[i];
+            if (count > 0){
+                System.out.println((char)i + " : " + count );
+            }
+        }
+        return 0;
     }
 }
