@@ -547,7 +547,6 @@ public class Mutect2IntegrationTest extends CommandLineProgramTest {
                 "-L", "chrM:1-1000",
                 "--" + M2ArgumentCollection.MEDIAN_AUTOSOMAL_COVERAGE_LONG_NAME, "1556", //arbitrary "autosomal" mean coverage used only for testing
                 "--" + M2ArgumentCollection.MITOCHONDRIA_MODE_LONG_NAME,
-                "--pruning-lod-threshold", Double.toString(ReadThreadingAssemblerArgumentCollection.DEFAULT_PRUNING_LOG_ODDS_THRESHOLD),
                 "-O", unfilteredVcf.getAbsolutePath());
         runCommandLine(args);
 
@@ -564,7 +563,7 @@ public class Mutect2IntegrationTest extends CommandLineProgramTest {
                 "chrM:750-750 [A*, G]");
         Assert.assertTrue(expectedKeys.stream().allMatch(variantKeys::contains));
 
-        Assert.assertEquals(variants.get(0).getGenotype("NA12878").getAnyAttribute(GATKVCFConstants.ORIGINAL_CONTIG_MISMATCH_KEY), "1513");
+        Assert.assertEquals(Integer.parseInt(variants.get(0).getGenotype("NA12878").getAnyAttribute(GATKVCFConstants.ORIGINAL_CONTIG_MISMATCH_KEY).toString()), 1514, 5);
         Assert.assertEquals(variants.get(0).getGenotype("NA12878").getAnyAttribute(GATKVCFConstants.POTENTIAL_POLYMORPHIC_NUMT_KEY), "true");
     }
 
